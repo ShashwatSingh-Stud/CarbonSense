@@ -1,0 +1,116 @@
+// Prisma Schema for CarbonSense
+// This schema defines the data models for Supabase PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    String    @id @default(uuid())
+  email                 String    @unique
+  name                  String
+  avatarUrl             String?
+  city                  String    @default("")
+  state                 String    @default("")
+  lifestyle             String    @default("urban")
+  dietType              String    @default("vegetarian")
+  transportModes        String[]
+  energyType            String    @default("lpg")
+  monthlyElectricityUnits Int     @default(150)
+  hasAC                 Boolean   @default(false)
+  familySize            Int       @default(4)
+  baselineFootprintJson String?   @map("baseline_footprint")
+  monthlyBudgetKg       Float     @default(150)
+  currentStreak         Int       @default(0)
+  longestStreak         Int       @default(0)
+  onboardingCompleted   Boolean   @default(false)
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  activityLogs          ActivityLog[]
+  chatMessages          ChatMessage[]
+  aiInsights            AIInsight[]
+  challengeParticipants ChallengeParticipant[]
+
+  @@map("users")
+}
+
+model ActivityLog {
+  id        String   @id @default(uuid())
+  userId    String
+  category  String   // food, transport, energy, shopping
+  itemId    String
+  itemName  String
+  itemIcon  String   @default("")
+  quantity  Float
+  unit      String
+  co2Kg     Float
+  loggedAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, loggedAt])
+  @@map("activity_logs")
+}
+
+model Challenge {
+  id                String   @id @default(uuid())
+  title             String
+  description       String
+  category          String   // food, transport, energy, shopping, mixed
+  targetReductionKg Float
+  startDate         DateTime
+  endDate           DateTime
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+
+  participants ChallengeParticipant[]
+
+  @@map("challenges")
+}
+
+model ChallengeParticipant {
+  id            String   @id @default(uuid())
+  challengeId   String
+  userId        String
+  joinedAt      DateTime @default(now())
+  reductionKg   Float    @default(0)
+
+  challenge Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([challengeId, userId])
+  @@map("challenge_participants")
+}
+
+model ChatMessage {
+  id        String   @id @default(uuid())
+  userId    String
+  role      String   // user, assistant
+  content   String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("chat_messages")
+}
+
+model AIInsight {
+  id          String   @id @default(uuid())
+  userId      String
+  content     String
+  type        String   // weekly, nudge, coach
+  generatedAt DateTime @default(now())
+  actedOn     Boolean  @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, generatedAt])
+  @@map("ai_insights")
+}

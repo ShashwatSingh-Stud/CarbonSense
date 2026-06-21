@@ -1,0 +1,506 @@
+@import "tailwindcss";
+
+/* ============================================================
+   CarbonSense Design System
+   Earth-forward minimalism aesthetic
+   ============================================================ */
+
+/* ============================================================
+   COLOR TOKENS — CSS Custom Properties
+   ============================================================ */
+:root {
+  /* Brand Colors (Light Mode) */
+  --forest-green: #1A6B3C;
+  --forest-green-rgb: 26, 107, 60;
+  --deep-teal: #0D9488;
+  --deep-teal-rgb: 13, 148, 136;
+  --earth-amber: #D97706;
+  --earth-amber-rgb: 217, 119, 6;
+  --carbon-red: #DC2626;
+  --carbon-red-rgb: 220, 38, 38;
+  --leaf-white: #F0FDF4;
+  --charcoal: #1C1C1C;
+  --sky-mist: #E0F2FE;
+  --sky-mist-rgb: 224, 242, 254;
+
+  /* Semantic Colors */
+  --bg-primary: #F0FDF4;
+  --bg-secondary: #ffffff;
+  --bg-card: rgba(255, 255, 255, 0.7);
+  --bg-card-hover: rgba(255, 255, 255, 0.85);
+  --text-primary: #1C1C1C;
+  --text-secondary: #4B5563;
+  --text-muted: #9CA3AF;
+  --border-color: rgba(26, 107, 60, 0.15);
+  --border-color-strong: rgba(26, 107, 60, 0.3);
+
+  /* Glass */
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(26, 107, 60, 0.12);
+  --glass-shadow: 0 8px 32px rgba(26, 107, 60, 0.08);
+
+  /* Gauge zones */
+  --gauge-green: #22C55E;
+  --gauge-amber: #F59E0B;
+  --gauge-red: #EF4444;
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #1A6B3C 0%, #0D9488 100%);
+  --gradient-accent: linear-gradient(135deg, #0D9488 0%, #06B6D4 100%);
+  --gradient-danger: linear-gradient(135deg, #DC2626 0%, #F97316 100%);
+  --gradient-card: linear-gradient(135deg, rgba(26, 107, 60, 0.05) 0%, rgba(13, 148, 136, 0.05) 100%);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-theme: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 20px rgba(26, 107, 60, 0.15);
+}
+
+/* ============================================================
+   DARK MODE — Carbon Night Theme
+   ============================================================ */
+[data-theme="dark"] {
+  --bg-primary: #0D1117;
+  --bg-secondary: #161B22;
+  --bg-card: rgba(22, 27, 34, 0.8);
+  --bg-card-hover: rgba(22, 27, 34, 0.95);
+  --text-primary: #E6EDF3;
+  --text-secondary: #8B949E;
+  --text-muted: #6E7681;
+  --border-color: rgba(74, 222, 128, 0.12);
+  --border-color-strong: rgba(74, 222, 128, 0.25);
+  --forest-green: #4ADE80;
+  --forest-green-rgb: 74, 222, 128;
+  --deep-teal: #2DD4BF;
+  --deep-teal-rgb: 45, 212, 191;
+  --leaf-white: #0D1117;
+  --charcoal: #E6EDF3;
+
+  --glass-bg: rgba(22, 27, 34, 0.65);
+  --glass-border: rgba(74, 222, 128, 0.1);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+  --gradient-primary: linear-gradient(135deg, #4ADE80 0%, #2DD4BF 100%);
+  --gradient-card: linear-gradient(135deg, rgba(74, 222, 128, 0.05) 0%, rgba(45, 212, 191, 0.05) 100%);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 20px rgba(74, 222, 128, 0.2);
+}
+
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+* {
+  transition: background-color var(--transition-theme),
+              border-color var(--transition-theme),
+              color var(--transition-theme);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+.font-display {
+  font-family: var(--font-sora), 'Sora', system-ui, sans-serif;
+}
+
+.font-mono-data {
+  font-family: var(--font-jetbrains), 'JetBrains Mono', monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-sora), 'Sora', system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* ============================================================
+   AMBIENT AURORA BACKGROUND
+   ============================================================ */
+.aurora-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.aurora-bg::before,
+.aurora-bg::after {
+  content: '';
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  border-radius: 50%;
+  opacity: 0.15;
+  filter: blur(80px);
+  animation: aurora-breathe 12s ease-in-out infinite;
+}
+
+.aurora-bg::before {
+  background: radial-gradient(ellipse at 30% 50%, rgba(var(--forest-green-rgb), 0.4) 0%, transparent 70%);
+  top: -30%;
+  left: -30%;
+  animation-delay: 0s;
+}
+
+.aurora-bg::after {
+  background: radial-gradient(ellipse at 70% 50%, rgba(var(--deep-teal-rgb), 0.3) 0%, transparent 70%);
+  bottom: -30%;
+  right: -30%;
+  animation-delay: -6s;
+}
+
+[data-theme="dark"] .aurora-bg::before {
+  opacity: 0.08;
+}
+[data-theme="dark"] .aurora-bg::after {
+  opacity: 0.06;
+}
+
+@keyframes aurora-breathe {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.15;
+  }
+  25% {
+    transform: translate(5%, -3%) scale(1.05);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translate(-3%, 5%) scale(1.1);
+    opacity: 0.12;
+  }
+  75% {
+    transform: translate(3%, 2%) scale(1.02);
+    opacity: 0.18;
+  }
+}
+
+/* ============================================================
+   GLASSMORPHISM CARD
+   ============================================================ */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow);
+  transition: all var(--transition-base);
+}
+
+.glass-card:hover {
+  background: var(--bg-card-hover);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  border-color: var(--border-color-strong);
+  transform: translateY(-2px);
+}
+
+.glass-card-static {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow);
+}
+
+/* ============================================================
+   SKELETON LOADERS — Green-tinted shimmer
+   ============================================================ */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(var(--forest-green-rgb), 0.08) 50%,
+    transparent 100%
+  );
+  animation: skeleton-shimmer 1.8s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton-line {
+  height: 14px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+
+.skeleton-circle {
+  border-radius: 50%;
+}
+
+/* ============================================================
+   SCROLLBAR CUSTOMIZATION
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--forest-green-rgb), 0.2);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--forest-green-rgb), 0.35);
+}
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+.text-gradient {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 12px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  box-shadow: 0 4px 14px rgba(var(--forest-green-rgb), 0.3);
+}
+
+[data-theme="dark"] .btn-primary {
+  color: #0D1117;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(var(--forest-green-rgb), 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  color: var(--forest-green);
+  border: 1px solid var(--border-color-strong);
+  border-radius: var(--radius-md);
+  padding: 12px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.btn-secondary:hover {
+  background: rgba(var(--forest-green-rgb), 0.1);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   PAGE CONTAINER
+   ============================================================ */
+.page-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+  padding-bottom: 100px; /* Space for bottom nav */
+  min-height: 100vh;
+}
+
+@media (min-width: 768px) {
+  .page-container {
+    max-width: 520px;
+    padding: 24px;
+  }
+}
+
+/* ============================================================
+   BOTTOM NAV
+   ============================================================ */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--glass-border);
+  padding: 8px 16px;
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
+}
+
+/* ============================================================
+   FAB (Floating Action Button)
+   ============================================================ */
+.fab {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 40;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(var(--forest-green-rgb), 0.4);
+  transition: all var(--transition-base);
+}
+
+[data-theme="dark"] .fab {
+  color: #0D1117;
+}
+
+.fab:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 28px rgba(var(--forest-green-rgb), 0.5);
+}
+
+.fab:active {
+  transform: scale(0.95);
+}
+
+/* ============================================================
+   LEAF BURST ANIMATION CONTAINER
+   ============================================================ */
+.leaf-burst-container {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* ============================================================
+   INPUT STYLES
+   ============================================================ */
+.input-field {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 14px;
+  transition: all var(--transition-base);
+  outline: none;
+}
+
+.input-field:focus {
+  border-color: var(--forest-green);
+  box-shadow: 0 0 0 3px rgba(var(--forest-green-rgb), 0.15);
+}
+
+.input-field::placeholder {
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   CHAT BUBBLE STYLES
+   ============================================================ */
+.chat-bubble-user {
+  background: var(--gradient-primary);
+  color: white;
+  border-radius: var(--radius-lg) var(--radius-lg) 4px var(--radius-lg);
+  padding: 12px 16px;
+  max-width: 80%;
+  margin-left: auto;
+}
+
+[data-theme="dark"] .chat-bubble-user {
+  color: #0D1117;
+}
+
+.chat-bubble-ai {
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) 4px;
+  padding: 12px 16px;
+  max-width: 85%;
+}
+
+/* ============================================================
+   CONFETTI KEYFRAMES
+   ============================================================ */
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.confetti-piece {
+  position: fixed;
+  top: 0;
+  z-index: 200;
+  width: 10px;
+  height: 10px;
+  animation: confetti-fall 3s ease-in forwards;
+  pointer-events: none;
+}
