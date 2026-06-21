@@ -33,15 +33,6 @@ export default function LandingPage() {
   const router = useRouter();
   const { state } = useApp();
 
-  // Redirect if already authenticated
-  useEffect(() => {
-    if (state.isAuthenticated && state.user?.onboardingCompleted) {
-      router.replace('/dashboard');
-    } else if (state.isAuthenticated && !state.user?.onboardingCompleted) {
-      router.replace('/onboarding');
-    }
-  }, [state.isAuthenticated, state.user, router]);
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
       {/* Hero */}
@@ -85,24 +76,38 @@ export default function LandingPage() {
 
         {/* CTA Buttons */}
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
-          <motion.button
-            className="btn-primary text-base px-8 py-3.5 flex items-center justify-center gap-2"
-            onClick={() => router.push('/auth/signup')}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            Get Started
-            <ArrowRight className="w-4 h-4" />
-          </motion.button>
+          {!state.isAuthenticated ? (
+            <>
+              <motion.button
+                className="btn-primary text-base px-8 py-3.5 flex items-center justify-center gap-2"
+                onClick={() => router.push('/auth/signup')}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                Create Account
+                <ArrowRight className="w-4 h-4" />
+              </motion.button>
 
-          <motion.button
-            className="btn-secondary text-base px-8 py-3.5"
-            onClick={() => router.push('/auth/login')}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            Sign In
-          </motion.button>
+              <motion.button
+                className="btn-secondary text-base px-8 py-3.5"
+                onClick={() => router.push('/auth/login')}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                Sign In
+              </motion.button>
+            </>
+          ) : (
+            <motion.button
+              className="btn-primary text-base px-8 py-3.5 flex items-center justify-center gap-2"
+              onClick={() => router.push(state.user?.onboardingCompleted ? '/dashboard' : '/onboarding')}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              Go to Dashboard
+              <ArrowRight className="w-4 h-4" />
+            </motion.button>
+          )}
         </div>
       </motion.div>
 
